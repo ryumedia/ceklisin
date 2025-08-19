@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BaliEase - Tourism Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .mobile-container {
+            max-width: 32rem;
+            width: 100%;
+            min-height: 100vh;
+        }
+        
+        .bg-bali {
+            background-image: 
+                linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(37, 99, 235, 0.7) 50%, rgba(29, 78, 216, 0.8) 100%),
+                url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiPv8YR6CgTjkgv6IJSbYx_hLEMSMD2VcqL7w4YANEYMIPw9oo7asbQ_bGZFs1J17MsERtWKqP4PgSVmrirHaFsNVylFiO7ApFakLkyVvjXHVyZLxSrl6iRx3DcxfHptM2AREgw6eyN0UF5qXkp3Hvyq-jMU-3QkWD5gP3XHjN4nd9h31clD07vuB7TMI0/s1500/gambar%20bali.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .input-focus:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+        
+        .btn-gradient:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .slide-up {
+            animation: slideUp 0.8s ease-out;
+        }
+        
+        .slide-left {
+            animation: slideLeft 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes slideLeft {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+        
+        .logo-glow {
+            filter: drop-shadow(0 4px 20px rgba(255, 255, 255, 0.3));
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-active {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+    <!-- Mobile App Container -->
+    <div class="mobile-container bg-white flex flex-col relative overflow-y-auto">
+        
+        <!-- Login Page -->
+        <div id="login-page" class="bg-bali flex flex-col relative overflow-y-auto min-h-screen"
+             style="background-image: 
+                    linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(37, 99, 235, 0.7) 50%, rgba(29, 78, 216, 0.8) 100%),
+                    url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiPv8YR6CgTjkgv6IJSbYx_hLEMSMD2VcqL7w4YANEYMIPw9oo7asbQ_bGZFs1J17MsERtWKqP4PgSVmrirHaFsNVylFiO7ApFakLkyVvjXHVyZLxSrl6iRx3DcxfHptM2AREgw6eyN0UF5qXkp3Hvyq-jMU-3QkWD5gP3XHjN4nd9h31clD07vuB7TMI0/s1500/gambar%20bali.jpg');
+                    background-size: cover;
+                    background-position: center;">
+            
+            <!-- Logo Section -->
+            <div class="text-center pt-16 pb-8 fade-in">
+                <div class="mb-4">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj35Fhwk72yDyMXg5512EQQpKkvViKmOcn_OWAV3xbCpqEANju-NH3P2cvt3oExYzYiBM-7GYK-Xj_mQUMRTla8_kMO5iUu7QX3x6J0lKqwn_ykOUVi-mkcBAoiCpNGObdK9ivprow5rsJ8hEktCwASA8UgG0tfqortKbkJXsKaPQEU-x1UOAJ_mh7gLbY/s1024/Logo%20'BaliEase'.png" 
+                         alt="BaliEase Logo" 
+                         class="w-20 h-20 mx-auto logo-glow">
+                </div>
+                <h1 class="text-2xl font-bold text-white mb-2">BaliEase</h1>
+                <p class="text-blue-100 text-sm">Tourism Management System</p>
+            </div>
+            
+            <!-- Login Form -->
+            <div class="flex-1 px-6">
+                <div class="glass-effect rounded-3xl p-6 shadow-2xl slide-up">
+                <div class="text-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800 mb-1">Welcome Back</h2>
+                    <p class="text-gray-600 text-xs">Sign in to manage your Bali experience</p>
+                </div>
+                
+                <form onsubmit="handleLogin(event)" class="space-y-4">
+                    <!-- Email Input -->
+                    <div class="space-y-1">
+                        <label for="email" class="block text-xs font-medium text-gray-700">Email Address</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                                <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
+                                </svg>
+                            </div>
+                            <input type="email" 
+                                   id="email" 
+                                   name="email"
+                                   required
+                                   class="input-focus block w-full pl-9 pr-3 py-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                                   placeholder="Enter your email">
+                        </div>
+                    </div>
+                    
+                    <!-- Password Input -->
+                    <div class="space-y-1">
+                        <label for="password" class="block text-xs font-medium text-gray-700">Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                                <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                </svg>
+                            </div>
+                            <input type="password" 
+                                   id="password" 
+                                   name="password"
+                                   required
+                                   class="input-focus block w-full pl-9 pr-10 py-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                                   placeholder="Enter your password">
+                            <button type="button" 
+                                    onclick="togglePassword()"
+                                    class="absolute inset-y-0 right-0 pr-2.5 flex items-center">
+                                <svg id="eye-icon" class="h-4 w-4 text-gray-400 hover:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Remember Me & Forgot Password -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input id="remember-me" 
+                                   name="remember-me" 
+                                   type="checkbox" 
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label for="remember-me" class="ml-2 block text-sm text-gray-700">
+                                Remember me
+                            </label>
+                        </div>
+                        <div class="text-sm">
+                            <a href="#" onclick="showForgotPassword()" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
+                                Forgot password?
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Login Button -->
+                    <button type="submit" 
+                            class="btn-gradient w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white transition-all duration-300">
+                        <span id="login-text">Sign In</span>
+                        <svg id="loading-spinner" class="hidden animate-spin -mr-1 ml-3 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </button>
+                </form>
+                
+                <!-- Divider -->
+                <div class="mt-3">
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300"></div>
+                        </div>
+                        <div class="relative flex justify-center text-xs">
+                            <span class="px-2 bg-white text-gray-500">Or continue with</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Social Login -->
+                <div class="mt-4 grid grid-cols-2 gap-3">
+                    <button onclick="socialLogin('google')" class="w-full inline-flex justify-center py-2 px-3 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        <span class="ml-1">Google</span>
+                    </button>
+                    
+                    <button onclick="socialLogin('facebook')" class="w-full inline-flex justify-center py-2 px-3 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors">
+                        <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                        <span class="ml-1">Facebook</span>
+                    </button>
+                </div>
+                
+                <!-- Sign Up Link -->
+                <div class="mt-3 text-center">
+                    <p class="text-xs text-gray-600">
+                        Don't have an account? 
+                        <a href="#" onclick="showSignUp()" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
+                            Sign up here
+                        </a>
+                    </p>
+                </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="text-center pb-8 px-6 fade-in">
+                <p class="text-blue-100 text-sm">
+                    © 2024 BaliEase. All rights reserved.
+                </p>
+            </div>
+        </div>
+
+        <!-- Home Page -->
+        <div id="home-page" class="hidden min-h-screen bg-gray-50">
+            <!-- Header -->
+            <div class="bg-white shadow-sm px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj35Fhwk72yDyMXg5512EQQpKkvViKmOcn_OWAV3xbCpqEANju-NH3P2cvt3oExYzYiBM-7GYK-Xj_mQUMRTla8_kMO5iUu7QX3x6J0lKqwn_ykOUVi-mkcBAoiCpNGObdK9ivprow5rsJ8hEktCwASA8UgG0tfqortKbkJXsKaPQEU-x1UOAJ_mh7gLbY/s1024/Logo%20'BaliEase'.png" 
+                             alt="Profile" 
+                             class="w-10 h-10 rounded-full">
+                        <div>
+                            <h2 class="text-lg font-semibold text-gray-800">Welcome back!</h2>
+                            <p class="text-sm text-gray-500">Explore beautiful Bali</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button onclick="showNotifications()" class="relative p-2 text-gray-400 hover:text-gray-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM10.07 2.82l3.93 3.93-3.93 3.93-3.93-3.93 3.93-3.93z"/>
+                            </svg>
+                            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </button>
+                        <button onclick="showProfile()" class="p-2 text-gray-400 hover:text-gray-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="px-6 py-4">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                    <input type="text" 
+                           placeholder="Search destinations, tours, guides..." 
+                           class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="px-6 py-2">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">Categories</h3>
+                <div class="flex space-x-3 overflow-x-auto pb-2">
+                    <button onclick="selectCategory('all')" class="category-btn category-active flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors">
+                        All
+                    </button>
+                    <button onclick="selectCategory('beach')" class="category-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">
+                        🏖️ Beach
+                    </button>
+                    <button onclick="selectCategory('temple')" class="category-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">
+                        🛕 Temple
+                    </button>
+                    <button onclick="selectCategory('mountain')" class="category-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">
+                        ⛰️ Mountain
+                    </button>
+                    <button onclick="selectCategory('culture')" class="category-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">
+                        🎭 Culture
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="px-6 py-4">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">Quick Actions</h3>
+                <div class="grid grid-cols-3 gap-3">
+                    <button onclick="bookTour()" class="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-xl text-center transition-colors">
+                        <svg class="w-6 h-6 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        <span class="text-xs font-medium">Book Tour</span>
+                    </button>
+                    <button onclick="findGuide()" class="bg-green-500 hover:bg-green-600 text-white p-4 rounded-xl text-center transition-colors">
+                        <svg class="w-6 h-6 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        <span class="text-xs font-medium">Find Guide</span>
+                    </button>
+                    <button onclick="checkWeather()" class="bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-xl text-center transition-colors">
+                        <svg class="w-6 h-6 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>
+                        </svg>
+                        <span class="text-xs font-medium">Weather</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Popular Destinations -->
+            <div class="px-6 py-4 pb-20">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">Popular Destinations</h3>
+                <div class="space-y-4">
+                    <!-- Destination 1 -->
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden card-hover transition-all duration-300" onclick="viewDestination('tanah-lot')">
+                        <div class="h-48 bg-gradient-to-r from-blue-400 to-blue-600 relative">
+                            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                            <div class="absolute bottom-4 left-4 text-white">
+                                <h4 class="text-lg font-semibold">Tanah Lot Temple</h4>
+                                <p class="text-sm opacity-90">Sacred sea temple</p>
+                            </div>
+                            <div class="absolute top-4 right-4 bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-2 py-1">
+                                <span class="text-white text-sm font-medium">⭐ 4.8</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-600 text-sm">Starting from</span>
+                                <span class="text-blue-600 font-semibold">$25/person</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Destination 2 -->
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden card-hover transition-all duration-300" onclick="viewDestination('ubud')">
+                        <div class="h-48 bg-gradient-to-r from-green-400 to-green-600 relative">
+                            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                            <div class="absolute bottom-4 left-4 text-white">
+                                <h4 class="text-lg font-semibold">Ubud Rice Terraces</h4>
+                                <p class="text-sm opacity-90">Cultural heart of Bali</p>
+                            </div>
+                            <div class="absolute top-4 right-4 bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-2 py-1">
+                                <span class="text-white text-sm font-medium">⭐ 4.9</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-600 text-sm">Starting from</span>
+                                <span class="text-blue-600 font-semibold">$35/person</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Destination 3 -->
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden card-hover transition-all duration-300" onclick="viewDestination('kuta')">
+                        <div class="h-48 bg-gradient-to-r from-orange-400 to-red-500 relative">
+                            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                            <div class="absolute bottom-4 left-4 text-white">
+                                <h4 class="text-lg font-semibold">Kuta Beach</h4>
+                                <p class="text-sm opacity-90">Surfing paradise</p>
+                            </div>
+                            <div class="absolute top-4 right-4 bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-2 py-1">
+                                <span class="text-white text-sm font-medium">⭐ 4.7</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-600 text-sm">Starting from</span>
+                                <span class="text-blue-600 font-semibold">$20/person</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-lg bg-white border-t border-gray-200 px-6 py-3">
+                <div class="flex justify-around">
+                    <button onclick="goToHome()" class="nav-btn flex flex-col items-center space-y-1 text-blue-600">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                        </svg>
+                        <span class="text-xs font-medium">Home</span>
+                    </button>
+                    <button onclick="goToExplore()" class="nav-btn flex flex-col items-center space-y-1 text-gray-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <span class="text-xs font-medium">Explore</span>
+                    </button>
+                    <button onclick="goToBookings()" class="nav-btn flex flex-col items-center space-y-1 text-gray-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        <span class="text-xs font-medium">Bookings</span>
+                    </button>
+                    <button onclick="goToProfile()" class="nav-btn flex flex-col items-center space-y-1 text-gray-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                        <span class="text-xs font-medium">Profile</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-sm text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Welcome to BaliEase!</h3>
+            <p class="text-gray-600 mb-4">Login successful. Redirecting to dashboard...</p>
+            <button onclick="goToHomePage()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                Continue
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"/>
+                `;
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                `;
+            }
+        }
+        
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const loginText = document.getElementById('login-text');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            
+            // Show loading state
+            loginText.textContent = 'Signing In...';
+            loadingSpinner.classList.remove('hidden');
+            submitButton.disabled = true;
+            
+            // Simulate login process
+            setTimeout(() => {
+                // Reset button state
+                loginText.textContent = 'Sign In';
+                loadingSpinner.classList.add('hidden');
+                submitButton.disabled = false;
+                
+                // Show success modal
+                document.getElementById('success-modal').classList.remove('hidden');
+            }, 2000);
+        }
+        
+        function socialLogin(provider) {
+            alert(`${provider.charAt(0).toUpperCase() + provider.slice(1)} login would be implemented here. This is a demo version.`);
+        }
+        
+        function showForgotPassword() {
+            alert('Forgot password functionality would be implemented here. This is a demo version.');
+        }
+        
+        function showSignUp() {
+            alert('Sign up page would be implemented here. This is a demo version.');
+        }
+        
+        function goToHomePage() {
+            document.getElementById('success-modal').classList.add('hidden');
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('home-page').classList.remove('hidden');
+        }
+
+        // Home page functions
+        function selectCategory(category) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('category-active');
+                btn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+            });
+            
+            // Add active class to clicked button
+            event.target.classList.add('category-active');
+            event.target.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+            
+            alert(`Filtering destinations by: ${category}`);
+        }
+
+        function bookTour() {
+            alert('Book Tour feature would open booking interface. This is a demo version.');
+        }
+
+        function findGuide() {
+            alert('Find Guide feature would show available local guides. This is a demo version.');
+        }
+
+        function checkWeather() {
+            alert('Weather feature would show current weather conditions in Bali. This is a demo version.');
+        }
+
+        function viewDestination(destination) {
+            alert(`Opening details for ${destination}. This would show full destination information, photos, reviews, and booking options.`);
+        }
+
+        function showNotifications() {
+            alert('Notifications: You have 2 new tour recommendations and 1 booking confirmation.');
+        }
+
+        function showProfile() {
+            alert('Profile page would be implemented here. This is a demo version.');
+        }
+
+        // Bottom navigation functions
+        function goToHome() {
+            // Already on home, just highlight the button
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-blue-600');
+                btn.classList.add('text-gray-400');
+            });
+            event.currentTarget.classList.remove('text-gray-400');
+            event.currentTarget.classList.add('text-blue-600');
+        }
+
+        function goToExplore() {
+            alert('Explore page would show all destinations with filters and search. This is a demo version.');
+        }
+
+        function goToBookings() {
+            alert('Bookings page would show your current and past bookings. This is a demo version.');
+        }
+
+        function goToProfile() {
+            alert('Profile page would show user settings and preferences. This is a demo version.');
+        }
+        
+        // Add input focus effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
+            
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.classList.add('ring-2', 'ring-blue-500');
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.classList.remove('ring-2', 'ring-blue-500');
+                });
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9718dbcc71cddd77',t:'MTc1NTU5ODIwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
