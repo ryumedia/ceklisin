@@ -13,6 +13,8 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SheetJS (Library untuk membaca Excel/Spreadsheet) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
         
@@ -323,10 +325,17 @@
                                             <p class="text-xs text-gray-400">Kelola akun dan data siswa.</p>
                                         </div>
                                         
-                                        <!-- Tombol Tambah memanggil Modal -->
-                                        <button type="button" onclick="window.openStudentModal()" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md hover:bg-[#694cd1] flex items-center gap-2 cursor-pointer transition transform active:scale-95 relative z-50">
-                                            <i class="fas fa-user-plus"></i> Tambah Murid
-                                        </button>
+                                        <div class="flex gap-2"> <!-- Tambahkan div untuk menampung kedua tombol -->
+                                            <!-- Tombol Import Data -->
+                                            <button type="button" onclick="window.openImportStudentModal()" class="bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md hover:bg-[#dcb310] flex items-center gap-2 cursor-pointer transition transform active:scale-95 relative z-50">
+                                                <i class="fas fa-file-import"></i> Import Data
+                                            </button>
+                                            
+                                            <!-- Tombol Tambah Murid (yang sudah ada) -->
+                                            <button type="button" onclick="window.openStudentModal()" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md hover:bg-[#694cd1] flex items-center gap-2 cursor-pointer transition transform active:scale-95 relative z-50">
+                                                <i class="fas fa-user-plus"></i> Tambah Murid
+                                            </button>
+                                        </div>
                                     </div>
 
                                     <div class="overflow-x-auto rounded-lg border border-gray-100 relative z-0">
@@ -814,6 +823,38 @@
                     <div class="flex gap-3 pt-4">
                         <button type="button" onclick="window.closeStudentModal()" class="flex-1 bg-gray-100 text-gray-600 font-bold py-3 rounded-xl hover:bg-gray-200 transition cursor-pointer relative z-50">Batal</button>
                         <button type="submit" class="flex-1 bg-primary text-white font-bold py-3 rounded-xl shadow-lg shadow-purple-200 hover:bg-[#694cd1] transition transform active:scale-95 cursor-pointer relative z-50">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- MODAL IMPORT MURID -->
+        <div id="importStudentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-[100] modal opacity-0 transition-opacity duration-300">
+            <div class="bg-white rounded-2xl p-6 w-full max-w-xl shadow-2xl transform transition-transform scale-95" id="importStudentModalContent">
+                <div class="flex justify-between items-center mb-6 border-b pb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Import Data Murid (Bulk)</h3>
+                    <button type="button" onclick="window.closeImportStudentModal()" class="text-gray-400 hover:text-gray-600 transition cursor-pointer z-50 relative">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form id="importStudentForm" onsubmit="window.handleImportStudentSubmit(event)" class="space-y-4">
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-lg">
+                        <p class="font-bold text-sm text-yellow-800 mb-2 flex items-center gap-2"><i class="fas fa-exclamation-triangle"></i> Format Wajib CSV / Tab</p>
+                        <p class="text-xs text-yellow-700">Gunakan file Excel (.xlsx) dengan **SHEET PERTAMA** memiliki kolom urutan: **Nama, Email, Password**.</p>
+                        <p class="text-xs text-yellow-700 mt-1">Contoh Baris: `Ani Budiman | ani.b@sekolah.com | password123`</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">Pilih File Excel (.xlsx / .xls):</label>
+                        <input type="file" id="import_file_input" accept=".xlsx,.xls" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-primary" required>
+                    </div>
+
+                    <div class="flex gap-3 pt-4">
+                        <button type="button" onclick="window.closeImportStudentModal()" class="flex-1 bg-gray-100 text-gray-600 font-bold py-3 rounded-xl hover:bg-gray-200 transition cursor-pointer relative z-50">Batal</button>
+                        <button type="submit" class="flex-1 bg-primary text-white font-bold py-3 rounded-xl shadow-lg shadow-purple-200 hover:bg-[#694cd1] transition transform active:scale-95 cursor-pointer relative z-50">
+                            <i class="fas fa-upload mr-1"></i> Proses Import Data
+                        </button>
                     </div>
                 </form>
             </div>
@@ -2315,6 +2356,169 @@
             fetchAndRenderStudents('admin');
         };
 
+        // --- FUNGSI MODAL IMPORT MURID ---
+        window.openImportStudentModal = function() {
+            const modal = document.getElementById('importStudentModal');
+            const content = document.getElementById('importStudentModalContent');
+            const form = document.getElementById('importStudentForm');
+
+            if(!modal || !form) return;
+            form.reset();
+
+            modal.classList.remove('hidden', 'opacity-0');
+            modal.classList.add('flex', 'opacity-100');
+            if(content) {
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }
+            document.body.classList.add('modal-active');
+        };
+
+        window.closeImportStudentModal = function() {
+            const modal = document.getElementById('importStudentModal');
+            const content = document.getElementById('importStudentModalContent');
+            if(!modal) return;
+            modal.classList.add('opacity-0');
+            if(content) content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.classList.remove('modal-active');
+            }, 250);
+        };
+
+        window.handleImportStudentSubmit = async function(e) {
+            e.preventDefault();
+            
+            const fileInput = document.getElementById('import_file_input');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                showToast("Pilih file Excel terlebih dahulu.", true);
+                return;
+            }
+
+            if (!currentUser.school_id) {
+                showToast("Admin tidak terikat dengan sekolah manapun.", true);
+                return;
+            }
+            
+            setLoader(true);
+            
+            // --- MEMBACA FILE EXCEL MENGGUNAKAN FILEREADER DAN SHEETJS ---
+            const promise = new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                
+                reader.onload = (event) => {
+                    try {
+                        const data = new Uint8Array(event.target.result);
+                        const workbook = XLSX.read(data, { type: 'array' });
+                        const sheetName = workbook.SheetNames[0]; // Ambil sheet pertama
+                        const worksheet = workbook.Sheets[sheetName];
+                        
+                        // Konversi sheet ke JSON (header menjadi kunci, baris menjadi objek)
+                        // Kita asumsikan baris pertama adalah header, tapi kita hanya butuh Nama, Email, Password.
+                        const records = XLSX.utils.sheet_to_json(worksheet, { header: ["name", "email", "password"], range: 1 });
+                        
+                        // Filter records agar hanya yang memiliki 3 data yang valid yang diproses
+                        const validRecords = records.filter(r => r.name && r.email && r.password);
+                        
+                        resolve(validRecords);
+                    } catch (error) {
+                        reject(new Error("Gagal membaca file Excel. Pastikan format benar."));
+                    }
+                };
+
+                reader.onerror = (error) => {
+                    reject(new Error("Gagal memuat file: " + error.message));
+                };
+
+                reader.readAsArrayBuffer(file);
+            });
+            
+            let records = [];
+            try {
+                records = await promise;
+            } catch (error) {
+                setLoader(false);
+                showToast(error.message, true);
+                return;
+            }
+
+            // --- LOGIKA BULK INSERT DATA (Sama seperti sebelumnya) ---
+            
+            if (records.length === 0) {
+                setLoader(false);
+                showToast("Tidak ada data murid valid ditemukan di sheet pertama.", true);
+                return;
+            }
+            
+            if (records.length > 50) { 
+                setLoader(false);
+                showToast("Import dibatasi maksimal 50 baris sekaligus.", true);
+                return;
+            }
+
+            let successCount = 0;
+            let failedRecords = [];
+            const schoolId = currentUser.school_id;
+            const tempSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+                auth: { persistSession: false }
+            });
+
+            for (const record of records) {
+                try {
+                    // 1. Validasi Minimum
+                    if (!record.email || !record.name || (record.password?.length < 6)) {
+                        throw new Error("Data tidak lengkap atau password kurang dari 6 karakter.");
+                    }
+                    
+                    // 2. Buat Akun Auth Supabase
+                    const { data: authData, error: authError } = await tempSupabase.auth.signUp({
+                        email: record.email,
+                        password: String(record.password) // Pastikan password adalah string
+                    });
+                    
+                    if (authError) throw authError;
+                    if (!authData.user) throw new Error("Gagal mendapatkan User ID dari Auth.");
+                    
+                    const userId = authData.user.id;
+                    
+                    // 3. Simpan Detail ke Tabel Users (Role Murid)
+                    const payload = {
+                        id: userId,
+                        name: String(record.name),
+                        email: record.email,
+                        school_id: schoolId,
+                        role: 'murid',
+                        status: 'active'
+                    };
+
+                    const { error: insertError } = await supabase.from('users').insert([payload]);
+                    if (insertError) throw insertError;
+                    
+                    successCount++;
+
+                } catch (error) {
+                    console.error(`Gagal import ${record.email}:`, error);
+                    failedRecords.push(`${record.name} (${record.email}): ${error.message || error}`);
+                }
+            }
+
+            setLoader(false);
+            window.closeImportStudentModal();
+            fetchAndRenderStudents('admin');
+
+            if (failedRecords.length > 0) {
+                let message = `Import Selesai: ${successCount} berhasil, ${failedRecords.length} gagal.`;
+                message += ` Gagal: ${failedRecords.slice(0, 3).join('; ')}...`;
+                showToast(message, true);
+            } else {
+                showToast(`Import Berhasil! ${successCount} murid baru ditambahkan.`);
+            }
+        };
+        // BATAS MODAL UPLOAD DATA MURID
+
         window.openTeacherModal = async function(teacherId = null) {
             const modal = document.getElementById('teacherModal');
             const content = document.getElementById('teacherModalContent');
@@ -3581,4 +3785,3 @@
     </script>
 </body>
 </html>
-
