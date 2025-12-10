@@ -69,6 +69,20 @@
             transform: scaleY(1);
             height: auto;
         }
+
+        /* Modal Styles */
+        #image-modal {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .modal-hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .modal-visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
     </style>
 </head>
 <body class="flex justify-center min-h-screen">
@@ -160,7 +174,7 @@
         <section id="fitur" class="px-6 py-12 bg-slate-50">
             <div class="text-center mb-10">
                 <h2 class="text-2xl font-bold text-slate-900">Fitur Unggulan</h2>
-                <p class="text-slate-500 text-sm mt-2">Didesain khusus untuk efisiensi laporan aktifitas anak.</p>
+                <p class="text-slate-500 text-base mt-2">Didesain khusus untuk efisiensi laporan aktifitas anak.</p>
             </div>
 
             <div class="space-y-16">
@@ -170,8 +184,8 @@
                         <div class="w-10 h-10 bg-[#795ee2]/10 text-[#795ee2] rounded-lg flex items-center justify-center mb-2">
                             <i data-lucide="shield-user" class="w-5 h-5"></i>
                         </div>
-                        <h3 class="font-bold text-slate-800 text-lg">Content Protect</h3>
-                        <p class="text-xs text-slate-500 leading-relaxed">
+                        <h3 class="font-bold text-slate-800 text-2xl">Content Protect</h3>
+                        <p class="text-base text-slate-500 leading-relaxed">
                             Kerahasian aktifitas dan laporan terjaga dengan 1 user 1 akun. Orang tua tak perlu khawatir dengan data aktifitas anak. Hanya orang tua yang bersangkutan dan guru yang tahu..
                         </p>
                     </div>
@@ -179,8 +193,8 @@
                     <div class="w-32 flex-shrink-0">
                         <img 
                             src="https://i.imghippo.com/files/iY5787CI.png" 
-                            alt="Fitur Scan" 
-                            class="rounded-xl shadow-lg border-4 border-white w-full h-auto object-cover"
+                            alt="Fitur Content Protect" 
+                            class="rounded-xl shadow-lg border-4 border-white w-full h-auto object-cover cursor-pointer popup-trigger"
                         >
                     </div>
                 </div>
@@ -191,8 +205,8 @@
                         <div class="w-10 h-10 bg-[#795ee2]/10 text-[#795ee2] rounded-lg flex items-center justify-center mb-2 ml-auto">
                             <i data-lucide="circle-check-big" class="w-5 h-5"></i>
                         </div>
-                        <h3 class="font-bold text-slate-800 text-lg">Easy Tracking</h3>
-                        <p class="text-xs text-slate-500 leading-relaxed">
+                        <h3 class="font-bold text-slate-800 text-2xl">Easy Tracking</h3>
+                        <p class="text-base text-slate-500 leading-relaxed">
                             Laporan aktifitas bisa dilihat secara langsung. Laporan perhari bisa dilihat dengan memilih hari yang dikehendaki.
                         </p>
                     </div>
@@ -200,8 +214,8 @@
                     <div class="w-32 flex-shrink-0">
                         <img 
                             src="https://i.imghippo.com/files/A4127wM.png" 
-                            alt="Fitur Tracking" 
-                            class="rounded-xl shadow-lg border-4 border-white w-full h-auto object-cover"
+                            alt="Fitur Easy Tracking" 
+                            class="rounded-xl shadow-lg border-4 border-white w-full h-auto object-cover cursor-pointer popup-trigger"
                         >
                     </div>
                 </div>
@@ -212,8 +226,8 @@
                         <div class="w-10 h-10 bg-[#795ee2]/10 text-[#795ee2] rounded-lg flex items-center justify-center mb-2">
                             <i data-lucide="clock-check" class="w-5 h-5"></i>
                         </div>
-                        <h3 class="font-bold text-slate-800 text-lg">Teacher Report</h3>
-                        <p class="text-xs text-slate-500 leading-relaxed">
+                        <h3 class="font-bold text-slate-800 text-2xl">Teacher Report</h3>
+                        <p class="text-base text-slate-500 leading-relaxed">
                             Guru dengan mudah melaporkan kegiatan harian siswa dan menambahkan komentar atas kegiatan harian secara real-time.
                         </p>
                     </div>
@@ -221,8 +235,8 @@
                     <div class="w-32 flex-shrink-0">
                         <img 
                             src="https://i.imghippo.com/files/rkJA8118OTU.png" 
-                            alt="Fitur Laporan" 
-                            class="rounded-xl shadow-lg border-4 border-white w-full h-auto object-cover"
+                            alt="Fitur Teacher Report" 
+                            class="rounded-xl shadow-lg border-4 border-white w-full h-auto object-cover cursor-pointer popup-trigger"
                         >
                     </div>
                 </div>
@@ -233,7 +247,7 @@
         <section class="bg-slate-900 text-white py-16 px-6 rounded-3xl mx-2 my-8 relative overflow-hidden">
             <div class="relative z-10">
                 <h2 class="text-2xl font-bold mb-4">Dashboard Admin Powerful</h2>
-                <p class="text-slate-400 text-sm mb-8 leading-relaxed">
+                <p class="text-slate-400 text-base mb-8 leading-relaxed">
                     Kontrol khusus untuk kepala sekolah dan Admin dengan dashboard yang mudah digunakan. Atur kegiatan siswa perkelas dan atur pemetaan guru dengan mudah.
                 </p>
 
@@ -260,8 +274,8 @@
                         <i data-lucide="zap" class="w-5 h-5"></i>
                     </div>
                     <div>
-                        <h3 class="font-bold text-slate-800 text-sm">Real-time Sync</h3>
-                        <p class="text-xs text-slate-500 mt-1">Data tersinkronisasi otomatis antara aplikasi mobile dan CMS desktop.</p>
+                        <h3 class="font-bold text-slate-800 text-xl">Real-time Sync</h3>
+                        <p class="text-base text-slate-500 mt-1">Data tersinkronisasi otomatis antara aplikasi mobile dan CMS desktop.</p>
                     </div>
                 </div>
                  <div class="flex gap-4 items-start bg-white p-4 rounded-xl shadow-sm border border-slate-100">
@@ -269,8 +283,8 @@
                         <i data-lucide="shield-check" class="w-5 h-5"></i>
                     </div>
                     <div>
-                        <h3 class="font-bold text-slate-800 text-sm">Keamanan Data</h3>
-                        <p class="text-xs text-slate-500 mt-1">Penyimpanan data dan server profesional untuk memastikan data Anda aman</p>
+                        <h3 class="font-bold text-slate-800 text-xl">Keamanan Data</h3>
+                        <p class="text-base text-slate-500 mt-1">Penyimpanan data dan server profesional untuk memastikan data Anda aman</p>
                     </div>
                 </div>
                  <div class="flex gap-4 items-start bg-white p-4 rounded-xl shadow-sm border border-slate-100">
@@ -278,8 +292,8 @@
                         <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
                     </div>
                     <div>
-                        <h3 class="font-bold text-slate-800 text-sm">Easy Admin Setting</h3>
-                        <p class="text-xs text-slate-500 mt-1">Mudah setting kegiatan dan mapping kelas.</p>
+                        <h3 class="font-bold text-slate-800 text-xl">Easy Admin Setting</h3>
+                        <p class="text-base text-slate-500 mt-1">Mudah setting kegiatan dan mapping kelas.</p>
                     </div>
                 </div>
             </div>
@@ -338,6 +352,18 @@
 
     </main>
 
+    <!-- Image Modal -->
+    <div id="image-modal" class="modal-hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[100] p-4">
+        <div class="relative bg-white p-2 rounded-xl max-w-md w-full shadow-2xl">
+            <!-- Close Button -->
+            <button id="modal-close-btn" class="absolute -top-3 -right-3 bg-white text-slate-700 rounded-full p-1.5 shadow-lg hover:bg-slate-200 transition z-10">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <!-- Modal Image -->
+            <img id="modal-image" src="" alt="Gambar Fitur Diperbesar" class="w-full h-auto rounded-lg">
+        </div>
+    </div>
+
     <script>
         // Initialize Icons
         lucide.createIcons();
@@ -374,6 +400,41 @@
         }
 
         menuBtn.addEventListener('click', toggleMenu);
+
+        // Image Modal Logic
+        const imageModal = document.getElementById('image-modal');
+        const modalImage = document.getElementById('modal-image');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const imageTriggers = document.querySelectorAll('.popup-trigger');
+
+        // Function to open the modal
+        function openModal(src, alt) {
+            modalImage.src = src;
+            modalImage.alt = alt;
+            imageModal.classList.remove('modal-hidden');
+            imageModal.classList.add('modal-visible');
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            imageModal.classList.remove('modal-visible');
+            imageModal.classList.add('modal-hidden');
+        }
+
+        // Add click event to all trigger images
+        imageTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                openModal(trigger.src, trigger.alt);
+            });
+        });
+
+        // Add click event to close button and modal background
+        modalCloseBtn.addEventListener('click', closeModal);
+        imageModal.addEventListener('click', (e) => {
+            if (e.target === imageModal) { // Close only if clicking on the background
+                closeModal();
+            }
+        });
     </script>
 </body>
 </html>
