@@ -1034,8 +1034,7 @@
         const SUPABASE_URL = 'https://wtcotslofcztuaqbycuz.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind0Y290c2xvZmN6dHVhcWJ5Y3V6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1OTI2MTEsImV4cCI6MjA3ODE2ODYxMX0.S6LjelEhKge_sqTchYysG2RRArb0Swq9tHQWKn4BzcU';
         
-        // --- SAFE SUPABASE INITIALIZATION ---
-        let supabase = null;
+        let supabaseClient = null;
         try {
             if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
                 supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -3785,4 +3784,3 @@
     </script>
 </body>
 </html>
-
