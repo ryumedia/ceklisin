@@ -120,6 +120,9 @@
                         <button onclick="fetchDashboardData()" class="bg-primary text-white p-2 rounded-xl hover:bg-opacity-90 transition">
                             <i data-lucide="refresh-cw" class="w-4 h-4"></i>
                         </button>
+                        <button onclick="protectedView('correction-modal')" class="bg-secondary text-white px-4 py-2 rounded-xl flex items-center gap-2 hover:bg-opacity-90 transition font-bold text-sm ml-2">
+                            <i data-lucide="check-square" class="w-4 h-4"></i> Koreksi
+                        </button>
                     </div>
                 </div>
 
@@ -141,6 +144,34 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <!-- SECTION DETAIL AKTIVITAS -->
+                <div class="mt-12">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                        <h2 class="text-xl font-bold text-gray-800">Detail Aktivitas Anak</h2>
+                        <div class="flex items-center gap-2 bg-white p-2 px-4 rounded-2xl shadow-sm border border-gray-100">
+                            <label for="dash-child-filter" class="text-sm font-semibold text-gray-500">Pilih Anak:</label>
+                            <select id="dash-child-filter" onchange="fetchDetailData()" class="outline-none text-sm font-bold text-primary bg-transparent cursor-pointer">
+                                <option value="">Memuat...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-gray-50 border-b border-gray-100">
+                                <tr>
+                                    <th class="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider w-16 text-center">No</th>
+                                    <th class="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Aktivitas</th>
+                                    <th class="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-center">Kategori</th>
+                                    <th class="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-center">Jumlah Terlaksana</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detail-table-body">
+                                <tr><td colspan="4" class="p-10 text-center text-gray-400 text-sm italic">Pilih nama anak untuk melihat detail.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -313,9 +344,46 @@
                         </select>
                     </div>
                 </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Status</label>
+                    <select id="activity-status" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-primary outline-none">
+                        <option value="Aktif">Aktif</option>
+                        <option value="Nonaktif">Nonaktif</option>
+                    </select>
+                </div>
                 <div class="flex gap-3 mt-6">
                     <button type="button" onclick="closeActivityModal()" class="flex-1 p-3 text-gray-500 font-semibold border rounded-xl hover:bg-gray-50">Batal</button>
                     <button type="submit" class="flex-1 bg-primary text-white p-3 rounded-xl font-bold hover:bg-opacity-90">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- CORRECTION MODAL -->
+    <div id="correction-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
+            <h3 class="text-xl font-bold mb-6 text-primary flex items-center gap-2">
+                <i data-lucide="check-square" class="w-6 h-6"></i> Koreksi Aktivitas
+            </h3>
+            <form id="correction-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Pilih Tanggal</label>
+                    <input type="date" id="corr-date" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-primary outline-none" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Pilih Anak</label>
+                    <select id="corr-child" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-primary outline-none" required></select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Pilih Aktivitas</label>
+                    <select id="corr-activity" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-primary outline-none" required></select>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-xl text-xs text-blue-700 leading-relaxed mb-4 italic">
+                    Gunakan fitur ini untuk mencatat aktivitas yang lupa diisi oleh anak pada hari sebelumnya.
+                </div>
+                <div class="flex gap-3 mt-6">
+                    <button type="button" onclick="closeCorrectionModal()" class="flex-1 p-3 text-gray-500 font-semibold border rounded-xl hover:bg-gray-50">Batal</button>
+                    <button type="submit" class="flex-1 bg-primary text-white p-3 rounded-xl font-bold hover:bg-opacity-90 transition">Kirim Koreksi</button>
                 </div>
             </form>
         </div>
@@ -647,10 +715,11 @@
                             <div class="flex gap-2 mt-1">
                                 <span class="text-[10px] uppercase font-bold px-2 py-0.5 bg-secondary/10 text-orange-600 rounded-md">${act.time_of_day}</span>
                                 <span class="text-[10px] uppercase font-bold px-2 py-0.5 bg-primary/10 text-primary rounded-md">${act.category}</span>
+                                <span class="text-[10px] uppercase font-bold px-2 py-0.5 ${act.status === 'Nonaktif' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'} rounded-md">${act.status || 'Aktif'}</span>
                             </div>
                         </div>
                         <div class="flex gap-1">
-                            <button onclick="editActivity('${act.id}', '${act.name}', '${act.time_of_day}', '${act.category}')" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition">
+                            <button onclick="editActivity('${act.id}', '${act.name}', '${act.time_of_day}', '${act.category}', '${act.status || 'Aktif'}')" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition">
                                 <i data-lucide="edit-2" class="w-4 h-4"></i>
                             </button>
                             <button onclick="deleteActivity('${act.id}')" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition">
@@ -674,12 +743,13 @@
             document.getElementById('activity-modal').classList.add('hidden');
         }
 
-        function editActivity(id, name, time, category) {
+        function editActivity(id, name, time, category, status) {
             document.getElementById('activity-modal-title').innerText = 'Edit Aktivitas';
             document.getElementById('edit-activity-id').value = id;
             document.getElementById('activity-name').value = name;
             document.getElementById('activity-time').value = time;
             document.getElementById('activity-category').value = category;
+            document.getElementById('activity-status').value = status;
             document.getElementById('activity-modal').classList.remove('hidden');
         }
 
@@ -689,11 +759,13 @@
             const name = document.getElementById('activity-name').value;
             const time_of_day = document.getElementById('activity-time').value;
             const category = document.getElementById('activity-category').value;
+            const status = document.getElementById('activity-status').value;
             
             const payload = { 
                 name, 
                 time_of_day, 
                 category, 
+                status,
                 parent_id: currentUser.id 
             };
 
@@ -722,7 +794,11 @@
             const endDate = document.getElementById('dash-end-date').value;
 
             const { data: children } = await supabaseClient.from('children').select('*').eq('parent_id', currentUser.id);
-            const { data: activities } = await supabaseClient.from('activities').select('*').eq('parent_id', currentUser.id);
+            const { data: activities } = await supabaseClient.from('activities')
+                .select('*')
+                .eq('parent_id', currentUser.id)
+                .eq('status', 'Aktif');
+
             const { data: logs } = await supabaseClient.from('activity_logs')
                 .select('*')
                 .gte('completed_at', startDate)
@@ -790,7 +866,81 @@
                 `;
             }).join('');
             
+            // Populate Child Filter Dropdown
+            const childFilter = document.getElementById('dash-child-filter');
+            const currentSelected = childFilter.value;
+            childFilter.innerHTML = children.map(c => 
+                `<option value="${c.id}" ${c.id === currentSelected ? 'selected' : ''}>${c.full_name}</option>`
+            ).join('');
+
+            // Load Detail Table
+            fetchDetailData();
+            
             lucide.createIcons();
+        }
+
+        async function fetchDetailData() {
+            const childId = document.getElementById('dash-child-filter').value;
+            const startDate = document.getElementById('dash-start-date').value;
+            const endDate = document.getElementById('dash-end-date').value;
+            const tbody = document.getElementById('detail-table-body');
+
+            if (!childId) return;
+
+            // Loading state
+            tbody.innerHTML = `<tr><td colspan="4" class="p-10 text-center text-gray-400 text-sm">Sedang menghitung detail...</td></tr>`;
+
+            try {
+                // Ambil semua aktivitas parent
+                const { data: activities } = await supabaseClient.from('activities')
+                    .select('*')
+                    .eq('parent_id', currentUser.id)
+                    .eq('status', 'Aktif');
+                
+                // Ambil log aktivitas anak tertentu dalam rentang tanggal
+                const { data: logs } = await supabaseClient.from('activity_logs')
+                    .select('activity_id')
+                    .eq('child_id', childId)
+                    .gte('completed_at', startDate)
+                    .lte('completed_at', endDate);
+
+                if (!activities || activities.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="p-10 text-center text-gray-400 text-sm">Tidak ada data aktivitas.</td></tr>`;
+                    return;
+                }
+
+                // Hitung frekuensi per aktivitas
+                const logCounts = {};
+                logs.forEach(log => {
+                    logCounts[log.activity_id] = (logCounts[log.activity_id] || 0) + 1;
+                });
+
+                tbody.innerHTML = activities.map((act, index) => {
+                    const count = logCounts[act.id] || 0;
+                    return `
+                        <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
+                            <td class="p-4 text-center text-gray-400 font-medium">${index + 1}</td>
+                            <td class="p-4">
+                                <p class="font-bold text-gray-700">${act.name}</p>
+                                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">${act.time_of_day}</p>
+                            </td>
+                            <td class="p-4 text-center">
+                                <span class="text-[10px] font-black px-2 py-1 bg-gray-100 text-gray-500 rounded-md uppercase italic">${act.category}</span>
+                            </td>
+                            <td class="p-4 text-center">
+                                <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/5 text-primary rounded-xl font-black text-lg">
+                                    ${count} <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                lucide.createIcons();
+            } catch (err) {
+                console.error(err);
+                tbody.innerHTML = `<tr><td colspan="4" class="p-10 text-center text-red-400 text-sm">Terjadi kesalahan saat memuat data.</td></tr>`;
+            }
         }
 
         // --- INPUT AKTIVITAS LOGIC ---
@@ -811,7 +961,10 @@
 
         async function initInputAktivitas() {
             const { data: children } = await supabaseClient.from('children').select('*').eq('parent_id', currentUser.id);
-            const { data: activities } = await supabaseClient.from('activities').select('*').eq('parent_id', currentUser.id);
+            const { data: activities } = await supabaseClient.from('activities')
+                .select('*')
+                .eq('parent_id', currentUser.id)
+                .eq('status', 'Aktif');
             
             // Get all logs for this month to filter Weekly/Monthly
             const startOfMonth = new Date(); startOfMonth.setDate(1);
@@ -828,7 +981,21 @@
                 return;
             }
 
-            container.innerHTML = children.map(child => {
+            const cardColors = [
+                'bg-red-50 border-red-200',
+                'bg-blue-50 border-blue-200',
+                'bg-green-50 border-green-200',
+                'bg-yellow-50 border-yellow-200',
+                'bg-purple-50 border-purple-200',
+                'bg-pink-50 border-pink-200',
+                'bg-orange-50 border-orange-200',
+                'bg-teal-50 border-teal-200',
+                'bg-indigo-50 border-indigo-200',
+                'bg-lime-50 border-lime-200'
+            ];
+
+            container.innerHTML = children.map((child, index) => {
+                const colorClass = cardColors[index % cardColors.length];
                 if (!activeTimeFilter[child.id]) activeTimeFilter[child.id] = 'Pagi';
                 
                 const childLogs = logs.filter(l => l.child_id === child.id);
@@ -867,7 +1034,7 @@
                 const isAllDone = currentFiltered.length > 0 && doneInTime === currentFiltered.length;
 
                 return `
-                    <div class="min-w-[300px] bg-white rounded-[2.5rem] shadow-xl border border-gray-100 p-6 snap-center flex flex-col h-[600px]">
+                    <div class="min-w-[300px] ${colorClass} rounded-[2.5rem] shadow-xl border p-6 snap-center flex flex-col h-[600px]">
                         <div class="text-center mb-4">
                             <h3 class="text-2xl font-black text-primary uppercase tracking-tight">${child.full_name}</h3>
                             <div class="flex justify-between items-center mt-3 bg-gray-50 p-3 rounded-2xl">
@@ -978,7 +1145,11 @@
             
             if (inputPin === profile.pin_code) {
                 closePinModal();
-                showView(pendingView);
+                if (pendingView === 'correction-modal') {
+                    openCorrectionModal();
+                } else {
+                    showView(pendingView);
+                }
             } else {
                 alert('PIN Salah!');
             }
@@ -1024,6 +1195,54 @@
                 document.getElementById('new-pin').value = '';
             }
         }
+
+        // --- CORRECTION LOGIC ---
+        async function openCorrectionModal() {
+            document.getElementById('corr-date').value = new Date().toISOString().split('T')[0];
+            
+            const { data: children } = await supabaseClient.from('children').select('*').eq('parent_id', currentUser.id);
+            const { data: activities } = await supabaseClient.from('activities').select('*').eq('parent_id', currentUser.id).eq('status', 'Aktif');
+
+            const childSelect = document.getElementById('corr-child');
+            childSelect.innerHTML = children.map(c => `<option value="${c.id}">${c.full_name}</option>`).join('');
+
+            const activitySelect = document.getElementById('corr-activity');
+            activitySelect.innerHTML = activities.map(a => `<option value="${a.id}">${a.name} (${a.time_of_day})</option>`).join('');
+
+            document.getElementById('correction-modal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeCorrectionModal() {
+            document.getElementById('correction-modal').classList.add('hidden');
+        }
+
+        document.getElementById('correction-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const child_id = document.getElementById('corr-child').value;
+            const activity_id = document.getElementById('corr-activity').value;
+            const completed_at = document.getElementById('corr-date').value;
+
+            const { error } = await supabaseClient.from('activity_logs').insert([{
+                child_id,
+                activity_id,
+                completed_at
+            }]);
+
+            if (error) {
+                if (error.code === '23505') {
+                    alert('Aktivitas ini sudah tercatat untuk anak dan tanggal tersebut.');
+                } else {
+                    alert('Gagal menyimpan koreksi: ' + error.message);
+                }
+            } else {
+                alert('Koreksi berhasil disimpan!');
+                closeCorrectionModal();
+                if (document.getElementById('view-dashboard').classList.contains('active')) {
+                    fetchDashboardData();
+                }
+            }
+        });
 
         // Initialize Lucide
         lucide.createIcons();
