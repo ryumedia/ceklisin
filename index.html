@@ -72,43 +72,51 @@
     <!-- MAIN APP LAYOUT (Hidden initially) -->
     <div id="main-app" class="hidden min-h-screen flex">
         <!-- Sidebar -->
-        <aside class="w-64 bg-white border-r flex flex-col">
-            <div class="p-4 flex justify-center">
-                <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgI3Y0j3lS8IcxhaiNKTuknC3P50foFe8xTo6cc8qescC9h0-L5ZICAqOmgP00ktHrXmahhBV50V1fKPml4F2NbRMyxtkrUvGfDr3pKQeyErh0PSblB1wFXCFm8tJZzY9nPaz_7QeMv6MQQjM_Fway_bS_W7p4w0AB_Rp9zsMAJsBRaa48rJlqv3Ww3WUo" alt="Logo Ceklisin" class="h-16">
-            </div>
-            <div id="sidebar-profile" class="px-4 pb-6 hidden border-b mb-4 text-center">
-                <p id="user-display-name" class="font-bold text-primary truncate w-full"></p>
-                <p id="user-display-email" class="text-xs text-gray-500 truncate"></p>
-            </div>
-            <nav class="flex-1 px-4 space-y-2">
-                <button onclick="showView('dashboard')" class="sidebar-item w-full flex items-center gap-3 p-3 rounded-xl text-gray-600 active" id="btn-dashboard">
-                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
-                </button>
-                <button onclick="showView('data-user')" class="sidebar-item w-full flex items-center gap-3 p-3 rounded-xl text-gray-600 hidden" id="btn-user">
-                    <i data-lucide="users" class="w-5 h-5"></i> Data User
-                </button>
-                <button onclick="protectedView('data-anak')" class="sidebar-item w-full flex items-center gap-3 p-3 rounded-xl text-gray-600" id="btn-data-anak">
-                    <i data-lucide="baby" class="w-5 h-5"></i> Data Anak
-                </button>
-                <button onclick="protectedView('data-aktivitas')" class="sidebar-item w-full flex items-center gap-3 p-3 rounded-xl text-gray-600" id="btn-data-aktivitas">
-                    <i data-lucide="list-checks" class="w-5 h-5"></i> Data Aktivitas
-                </button>
-                <button onclick="showView('input-aktivitas')" class="sidebar-item w-full flex items-center gap-3 p-3 rounded-xl text-gray-600" id="btn-input-aktivitas">
-                    <i data-lucide="pen-tool" class="w-5 h-5"></i> Input Aktivitas
-                </button>
-                <button onclick="showView('pengaturan')" class="sidebar-item w-full flex items-center gap-3 p-3 rounded-xl text-gray-600">
-                    <i data-lucide="settings" class="w-5 h-5"></i> Pengaturan
-                </button>
-            </nav>
-            <div class="p-4 border-t">
-                <button onclick="handleLogout()" class="w-full flex items-center gap-3 p-3 text-red-500 hover:bg-red-50 rounded-xl">
-                    <i data-lucide="log-out" class="w-5 h-5"></i> Keluar
-                </button>
+        <aside id="sidebar" class="w-64 bg-white border-r flex flex-col transition-all duration-300 overflow-hidden">
+            <div class="w-64 flex flex-col h-full">
+                <div class="p-4 flex justify-center">
+                    <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgI3Y0j3lS8IcxhaiNKTuknC3P50foFe8xTo6cc8qescC9h0-L5ZICAqOmgP00ktHrXmahhBV50V1fKPml4F2NbRMyxtkrUvGfDr3pKQeyErh0PSblB1wFXCFm8tJZzY9nPaz_7QeMv6MQQjM_Fway_bS_W7p4w0AB_Rp9zsMAJsBRaa48rJlqv3Ww3WUo" alt="Logo Ceklisin" class="h-16">
+                </div>
+                <div id="sidebar-profile" class="px-4 pb-6 hidden border-b mb-4 text-center">
+                    <p id="user-display-name" class="font-bold text-primary truncate w-full"></p>
+                    <p id="user-display-email" class="text-xs text-gray-500 truncate"></p>
+                </div>
+                <nav class="flex-1 px-4 space-y-2">
+                    <button onclick="showView('dashboard')" class="sidebar-item w-full flex items-center gap-3 p-3 rounded-xl text-gray-600 active" id="btn-dashboard">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
+                    </button>
+                    <button onclick="showView('data-user')" class="sidebar-item w-full flex items-center gap-3 p-3 rounded-xl text-gray-600 hidden" id="btn-user">
+                        <i data-lucide="users" class="w-5 h-5"></i> Data User
+                    </button>
+                    <button onclick="protectedView('data-anak')" class="sidebar-item w-full flex items-center gap-3 p-3 rounded-xl text-gray-600" id="btn-data-anak">
+                        <i data-lucide="baby" class="w-5 h-5"></i> Data Anak
+                    </button>
+                    <button onclick="protectedView('data-aktivitas')" class="sidebar-item w-full flex items-center gap-3 p-3 rounded-xl text-gray-600" id="btn-data-aktivitas">
+                        <i data-lucide="list-checks" class="w-5 h-5"></i> Data Aktivitas
+                    </button>
+                    <button onclick="showView('input-aktivitas')" class="sidebar-item w-full flex items-center gap-3 p-3 rounded-xl text-gray-600" id="btn-input-aktivitas">
+                        <i data-lucide="pen-tool" class="w-5 h-5"></i> Input Aktivitas
+                    </button>
+                    <button onclick="showView('pengaturan')" class="sidebar-item w-full flex items-center gap-3 p-3 rounded-xl text-gray-600">
+                        <i data-lucide="settings" class="w-5 h-5"></i> Pengaturan
+                    </button>
+                </nav>
+                <div class="p-4 border-t">
+                    <button onclick="handleLogout()" class="w-full flex items-center gap-3 p-3 text-red-500 hover:bg-red-50 rounded-xl">
+                        <i data-lucide="log-out" class="w-5 h-5"></i> Keluar
+                    </button>
+                </div>
             </div>
         </aside>
 
         <!-- Content Area -->
         <main class="flex-1 p-8">
+            <!-- Sidebar Toggle Button -->
+            <button onclick="toggleSidebar()" class="mb-6 p-2 bg-white rounded-xl shadow-sm border border-gray-100 hover:text-primary transition group flex items-center gap-2">
+                <i data-lucide="menu" class="w-5 h-5 text-gray-400 group-hover:text-primary"></i>
+                <span class="text-[10px] font-bold text-gray-400 group-hover:text-primary uppercase tracking-widest">Menu</span>
+            </button>
+
             <!-- Sections Container -->
             <div id="view-dashboard" class="view-section active">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
@@ -327,6 +335,21 @@
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
+                        <label class="block text-sm font-semibold mb-1">Tipe</label>
+                        <select id="activity-type" onchange="toggleChildSelect()" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-primary outline-none">
+                            <option value="Umum">Umum</option>
+                            <option value="Personal">Personal</option>
+                        </select>
+                    </div>
+                    <div id="child-select-container" class="hidden">
+                        <label class="block text-sm font-semibold mb-1">Pilih Anak</label>
+                        <select id="activity-child-id" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-primary outline-none">
+                            <!-- Dikelola via JS -->
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
                         <label class="block text-sm font-semibold mb-1">Waktu</label>
                         <select id="activity-time" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-primary outline-none">
                             <option value="Pagi">Pagi</option>
@@ -482,6 +505,17 @@
         async function handleLogout() {
             await supabaseClient.auth.signOut();
             window.location.reload();
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar.classList.contains('w-64')) {
+                sidebar.classList.remove('w-64', 'border-r');
+                sidebar.classList.add('w-0', 'border-r-0');
+            } else {
+                sidebar.classList.add('w-64', 'border-r');
+                sidebar.classList.remove('w-0', 'border-r-0');
+            }
         }
 
         // --- NAVIGATION LOGIC ---
@@ -695,9 +729,8 @@
 
         // --- ACTIVITY MANAGEMENT LOGIC ---
         async function fetchActivities() {
-            const { data: activities, error } = await supabaseClient
-                .from('activities')
-                .select('*')
+            const { data: activities, error } = await supabaseClient.from('activities')
+                .select('*, children(full_name)')
                 .eq('parent_id', currentUser.id)
                 .order('created_at', { ascending: false });
 
@@ -713,13 +746,15 @@
                         <div>
                             <h4 class="font-bold text-lg text-primary">${act.name}</h4>
                             <div class="flex gap-2 mt-1">
+                                <span class="text-[10px] uppercase font-bold px-2 py-0.5 ${act.type === 'Personal' ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-100 text-gray-600'} rounded-md">${act.type || 'Umum'}</span>
                                 <span class="text-[10px] uppercase font-bold px-2 py-0.5 bg-secondary/10 text-orange-600 rounded-md">${act.time_of_day}</span>
                                 <span class="text-[10px] uppercase font-bold px-2 py-0.5 bg-primary/10 text-primary rounded-md">${act.category}</span>
                                 <span class="text-[10px] uppercase font-bold px-2 py-0.5 ${act.status === 'Nonaktif' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'} rounded-md">${act.status || 'Aktif'}</span>
                             </div>
+                            ${act.type === 'Personal' && act.children ? `<p class="text-[10px] text-indigo-500 font-bold mt-2 uppercase">Khusus: ${act.children.full_name}</p>` : ''}
                         </div>
                         <div class="flex gap-1">
-                            <button onclick="editActivity('${act.id}', '${act.name}', '${act.time_of_day}', '${act.category}', '${act.status || 'Aktif'}')" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition">
+                            <button onclick="editActivity('${act.id}', '${act.name}', '${act.time_of_day}', '${act.category}', '${act.status || 'Aktif'}', '${act.type || 'Umum'}', '${act.child_id || ''}')" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition">
                                 <i data-lucide="edit-2" class="w-4 h-4"></i>
                             </button>
                             <button onclick="deleteActivity('${act.id}')" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition">
@@ -732,10 +767,17 @@
             lucide.createIcons();
         }
 
-        function openActivityModal() {
+        async function openActivityModal() {
             document.getElementById('activity-modal-title').innerText = 'Tambah Aktivitas';
             document.getElementById('edit-activity-id').value = '';
             document.getElementById('activity-form').reset();
+            
+            // Populate children dropdown for Personal type
+            const { data: children } = await supabaseClient.from('children').select('id, full_name').eq('parent_id', currentUser.id);
+            const childSelect = document.getElementById('activity-child-id');
+            childSelect.innerHTML = children.map(c => `<option value="${c.id}">${c.full_name}</option>`).join('');
+            
+            toggleChildSelect();
             document.getElementById('activity-modal').classList.remove('hidden');
         }
 
@@ -743,13 +785,29 @@
             document.getElementById('activity-modal').classList.add('hidden');
         }
 
-        function editActivity(id, name, time, category, status) {
+        function toggleChildSelect() {
+            const type = document.getElementById('activity-type').value;
+            const container = document.getElementById('child-select-container');
+            if (type === 'Personal') {
+                container.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+            }
+        }
+
+        async function editActivity(id, name, time, category, status, type, childId) {
+            await openActivityModal(); // Reuse to populate children select
             document.getElementById('activity-modal-title').innerText = 'Edit Aktivitas';
             document.getElementById('edit-activity-id').value = id;
             document.getElementById('activity-name').value = name;
             document.getElementById('activity-time').value = time;
             document.getElementById('activity-category').value = category;
             document.getElementById('activity-status').value = status;
+            document.getElementById('activity-type').value = type;
+            if (childId) {
+                document.getElementById('activity-child-id').value = childId;
+            }
+            toggleChildSelect();
             document.getElementById('activity-modal').classList.remove('hidden');
         }
 
@@ -760,12 +818,16 @@
             const time_of_day = document.getElementById('activity-time').value;
             const category = document.getElementById('activity-category').value;
             const status = document.getElementById('activity-status').value;
+            const type = document.getElementById('activity-type').value;
+            const child_id = type === 'Personal' ? document.getElementById('activity-child-id').value : null;
             
             const payload = { 
                 name, 
                 time_of_day, 
                 category, 
                 status,
+                type,
+                child_id,
                 parent_id: currentUser.id 
             };
 
@@ -794,10 +856,12 @@
             const endDate = document.getElementById('dash-end-date').value;
 
             const { data: children } = await supabaseClient.from('children').select('*').eq('parent_id', currentUser.id);
-            const { data: activities } = await supabaseClient.from('activities')
+            // Fetch all active activities for the parent, to be filtered per child later
+            const { data: allParentActivities } = await supabaseClient.from('activities')
                 .select('*')
                 .eq('parent_id', currentUser.id)
                 .eq('status', 'Aktif');
+            const activities = allParentActivities || []; // Ensure it's an array
 
             const { data: logs } = await supabaseClient.from('activity_logs')
                 .select('*')
@@ -822,8 +886,12 @@
                 const childLogs = logs.filter(l => l.child_id === child.id);
                 
                 // Hitung total target aktivitas yang seharusnya dilakukan dalam rentang waktu tersebut
+                // Filter activities relevant to this specific child
+                const relevantActivities = activities.filter(act => {
+                    return act.type === 'Umum' || (act.type === 'Personal' && act.child_id == child.id);
+                });
                 let totalTarget = 0;
-                activities.forEach(act => {
+                relevantActivities.forEach(act => {
                     if (act.category === 'Harian') totalTarget += diffDays;
                     else if (act.category === 'Pekanan') totalTarget += diffWeeks;
                     else if (act.category === 'Bulanan') totalTarget += diffMonths;
@@ -892,10 +960,12 @@
 
             try {
                 // Ambil semua aktivitas parent
+                // Ambil aktivitas yang relevan untuk anak yang dipilih (Umum atau Personal untuk anak ini)
                 const { data: activities } = await supabaseClient.from('activities')
                     .select('*')
                     .eq('parent_id', currentUser.id)
                     .eq('status', 'Aktif');
+                    // .or(`type.eq.Umum,and(type.eq.Personal,child_id.eq.${childId})`); // This is the more efficient way if Supabase allows OR with EQ
                 
                 // Ambil log aktivitas anak tertentu dalam rentang tanggal
                 const { data: logs } = await supabaseClient.from('activity_logs')
@@ -909,6 +979,10 @@
                     return;
                 }
 
+                // Filter activities to only show those relevant to the selected child
+                const relevantActivities = activities.filter(act => {
+                    return act.type === 'Umum' || (act.type === 'Personal' && act.child_id == childId);
+                });
                 // Hitung frekuensi per aktivitas
                 const logCounts = {};
                 logs.forEach(log => {
@@ -916,6 +990,28 @@
                 });
 
                 tbody.innerHTML = activities.map((act, index) => {
+                    const count = logCounts[act.id] || 0; // This count is for the specific child
+                    return `
+                        <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
+                            <td class="p-4 text-center text-gray-400 font-medium">${index + 1}</td>
+                            <td class="p-4">
+                                <p class="font-bold text-gray-700">${act.name}</p>
+                                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">${act.time_of_day}</p>
+                            </td>
+                            <td class="p-4 text-center">
+                                <span class="text-[10px] font-black px-2 py-1 bg-gray-100 text-gray-500 rounded-md uppercase italic">${act.category}</span>
+                            </td>
+                            <td class="p-4 text-center">
+                                <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/5 text-primary rounded-xl font-black text-lg">
+                                    ${count} <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                // Re-map with relevantActivities instead of all activities
+                tbody.innerHTML = relevantActivities.map((act, index) => {
                     const count = logCounts[act.id] || 0;
                     return `
                         <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
@@ -935,6 +1031,7 @@
                         </tr>
                     `;
                 }).join('');
+
 
                 lucide.createIcons();
             } catch (err) {
@@ -1003,6 +1100,9 @@
                 
                 // Filter activities based on logic
                 const availableActs = activities.filter(act => {
+                    // Filter by Type: Only show Personal activity to the designated child
+                    if (act.type === 'Personal' && act.child_id !== child.id) return false;
+
                     const isDoneToday = childLogs.some(l => l.activity_id === act.id && l.completed_at === new Date().toISOString().split('T')[0]);
                     
                     if (act.category === 'Harian') return true; // Always show, checkbox handles state
