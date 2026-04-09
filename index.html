@@ -72,7 +72,7 @@
     <!-- MAIN APP LAYOUT (Hidden initially) -->
     <div id="main-app" class="hidden min-h-screen flex">
         <!-- Sidebar -->
-        <aside id="sidebar" class="w-64 bg-white border-r flex flex-col transition-all duration-300 overflow-hidden">
+        <aside id="sidebar" class="w-64 bg-white border-r flex flex-col">
             <div class="w-64 flex flex-col h-full">
                 <div class="p-4 flex justify-center">
                     <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgI3Y0j3lS8IcxhaiNKTuknC3P50foFe8xTo6cc8qescC9h0-L5ZICAqOmgP00ktHrXmahhBV50V1fKPml4F2NbRMyxtkrUvGfDr3pKQeyErh0PSblB1wFXCFm8tJZzY9nPaz_7QeMv6MQQjM_Fway_bS_W7p4w0AB_Rp9zsMAJsBRaa48rJlqv3Ww3WUo" alt="Logo Ceklisin" class="h-16">
@@ -111,12 +111,6 @@
 
         <!-- Content Area -->
         <main class="flex-1 p-8">
-            <!-- Sidebar Toggle Button -->
-            <button onclick="toggleSidebar()" class="mb-6 p-2 bg-white rounded-xl shadow-sm border border-gray-100 hover:text-primary transition group flex items-center gap-2">
-                <i data-lucide="menu" class="w-5 h-5 text-gray-400 group-hover:text-primary"></i>
-                <span class="text-[10px] font-bold text-gray-400 group-hover:text-primary uppercase tracking-widest">Menu</span>
-            </button>
-
             <!-- Sections Container -->
             <div id="view-dashboard" class="view-section active">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
@@ -505,17 +499,6 @@
         async function handleLogout() {
             await supabaseClient.auth.signOut();
             window.location.reload();
-        }
-
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            if (sidebar.classList.contains('w-64')) {
-                sidebar.classList.remove('w-64', 'border-r');
-                sidebar.classList.add('w-0', 'border-r-0');
-            } else {
-                sidebar.classList.add('w-64', 'border-r');
-                sidebar.classList.remove('w-0', 'border-r-0');
-            }
         }
 
         // --- NAVIGATION LOGIC ---
