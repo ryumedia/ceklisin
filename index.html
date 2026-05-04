@@ -336,10 +336,8 @@
                         </select>
                     </div>
                     <div id="child-select-container" class="hidden">
-                        <label class="block text-sm font-semibold mb-1">Pilih Anak <span class="text-[10px] text-gray-400 font-normal">(Tekan tombol Ctrl + klik untuk memilih lebih dari 1)</span></label>
-                        <select id="activity-child-id" multiple class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-primary outline-none h-24">
-                            <!-- Dikelola via JS -->
-                        </select>
+                        <label class="block text-sm font-semibold mb-1">Pilih Anak</label>
+                        <div id="activity-child-checkboxes" class="w-full p-3 border rounded-xl space-y-2 max-h-32 overflow-y-auto bg-gray-50"></div>
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
@@ -725,8 +723,30 @@
                 return;
             }
 
+            // Kelompokkan aktivitas untuk menghindari kartu duplikat jika satu kegiatan untuk banyak anak
+            const grouped = [];
+            activities.forEach(act => {
+                const key = `${act.name}|${act.time_of_day}|${act.category}|${act.type}|${act.status}`;
+                let group = grouped.find(g => g.key === key);
+                
+                if (!group) {
+                    group = { 
+                        ...act, 
+                        ids: [act.id], 
+                        child_ids: act.child_id ? [act.child_id] : [], 
+                        child_names: (act.type === 'Personal' && act.children) ? [act.children.full_name] : [],
+                        key 
+                    };
+                    grouped.push(group);
+                } else {
+                    group.ids.push(act.id);
+                    if (act.child_id) group.child_ids.push(act.child_id);
+                    if (act.children) group.child_names.push(act.children.full_name);
+                }
+            });
+
             const container = document.getElementById('activities-list');
-            container.innerHTML = activities.map(act => `
+            container.innerHTML = grouped.map(act => `
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                     <div class="flex justify-between items-start mb-4">
                         <div>
@@ -737,13 +757,13 @@
                                 <span class="text-[10px] uppercase font-bold px-2 py-0.5 bg-primary/10 text-primary rounded-md">${act.category}</span>
                                 <span class="text-[10px] uppercase font-bold px-2 py-0.5 ${act.status === 'Nonaktif' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'} rounded-md">${act.status || 'Aktif'}</span>
                             </div>
-                            ${act.type === 'Personal' && act.children ? `<p class="text-[10px] text-indigo-500 font-bold mt-2 uppercase">Khusus: ${act.children.full_name}</p>` : ''}
+                            ${act.type === 'Personal' && act.child_names.length > 0 ? `<p class="text-[10px] text-indigo-500 font-bold mt-2 uppercase">Khusus: ${act.child_names.join(', ')}</p>` : ''}
                         </div>
                         <div class="flex gap-1">
-                            <button onclick="editActivity('${act.id}', '${act.name}', '${act.time_of_day}', '${act.category}', '${act.status || 'Aktif'}', '${act.type || 'Umum'}', '${act.child_id || ''}')" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition">
+                            <button onclick="editActivity('${act.ids.join(',')}', '${act.name}', '${act.time_of_day}', '${act.category}', '${act.status || 'Aktif'}', '${act.type || 'Umum'}', '${act.child_ids.join(',')}')" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition">
                                 <i data-lucide="edit-2" class="w-4 h-4"></i>
                             </button>
-                            <button onclick="deleteActivity('${act.id}')" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition">
+                            <button onclick="deleteActivity('${act.ids.join(',')}')" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition">
                                 <i data-lucide="trash-2" class="w-4 h-4"></i>
                             </button>
                         </div>
@@ -760,8 +780,13 @@
             
             // Populate children dropdown for Personal type
             const { data: children } = await supabaseClient.from('children').select('id, full_name').eq('parent_id', currentUser.id);
-            const childSelect = document.getElementById('activity-child-id');
-            childSelect.innerHTML = children.map(c => `<option value="${c.id}">${c.full_name}</option>`).join('');
+            const checkboxContainer = document.getElementById('activity-child-checkboxes');
+            checkboxContainer.innerHTML = children.map(c => `
+                <label class="flex items-center gap-2 cursor-pointer hover:bg-white p-1 rounded transition">
+                    <input type="checkbox" value="${c.id}" class="child-checkbox w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary">
+                    <span class="text-sm text-gray-700">${c.full_name}</span>
+                </label>
+            `).join('');
             
             toggleChildSelect();
             document.getElementById('activity-modal').classList.remove('hidden');
@@ -781,21 +806,22 @@
             }
         }
 
-        async function editActivity(id, name, time, category, status, type, childId) {
+        async function editActivity(ids, name, time, category, status, type, childIds) {
             await openActivityModal(); // Reuse to populate children select
             document.getElementById('activity-modal-title').innerText = 'Edit Aktivitas';
-            document.getElementById('edit-activity-id').value = id;
+            document.getElementById('edit-activity-id').value = ids; // Simpan ID dalam format CSV
             document.getElementById('activity-name').value = name;
             document.getElementById('activity-time').value = time;
             document.getElementById('activity-category').value = category;
             document.getElementById('activity-status').value = status;
             document.getElementById('activity-type').value = type;
             
-            const childSelect = document.getElementById('activity-child-id');
-            Array.from(childSelect.options).forEach(opt => opt.selected = false); // Reset selection
-            if (childId) {
-                Array.from(childSelect.options).forEach(opt => {
-                    if(opt.value === childId) opt.selected = true;
+            const checkboxes = document.querySelectorAll('.child-checkbox');
+            checkboxes.forEach(cb => cb.checked = false); // Reset selection
+            if (childIds) {
+                const cIds = childIds.split(',');
+                checkboxes.forEach(cb => {
+                    if(cIds.includes(cb.value)) cb.checked = true;
                 });
             }
             toggleChildSelect();
@@ -811,48 +837,79 @@
             const status = document.getElementById('activity-status').value;
             const type = document.getElementById('activity-type').value;
             
-            // Ambil semua ID anak yang dipilih jika tipe Personal
-            const childSelect = document.getElementById('activity-child-id');
-            const selectedChildIds = Array.from(childSelect.selectedOptions).map(opt => opt.value);
+            // Ambil semua ID anak yang dipilih dari container checkbox khusus modal ini
+            const checkboxContainer = document.getElementById('activity-child-checkboxes');
+            const checkedBoxes = checkboxContainer.querySelectorAll('.child-checkbox:checked');
+            const selectedChildIds = Array.from(checkedBoxes).map(cb => cb.value);
 
             if (type === 'Personal' && selectedChildIds.length === 0) {
                 alert('Pilih minimal satu anak untuk tipe Personal.');
                 return;
             }
 
-            const { error } = id 
-                ? await supabaseClient.from('activities').update({ 
-                    name, time_of_day, category, status, type, parent_id: currentUser.id,
-                    child_id: type === 'Personal' ? selectedChildIds[0] : null // Saat edit, ambil pilihan pertama
-                  }).eq('id', id)
-                : await (async () => {
-                    // Jika mode "Tambah Baru", dukung multi-insert untuk tipe Personal
-                    if (type === 'Personal') {
-                        const payloads = selectedChildIds.map(cid => ({
-                            name, time_of_day, category, status, type,
-                            parent_id: currentUser.id,
-                            child_id: cid
-                        }));
-                        return await supabaseClient.from('activities').insert(payloads);
-                    } else {
-                        return await supabaseClient.from('activities').insert([{
-                            name, time_of_day, category, status, type,
-                            parent_id: currentUser.id, child_id: null
-                        }]);
-                    }
-                })();
+            // Siapkan data untuk dikirim
+            const payloads = [];
+            if (type === 'Personal') {
+                selectedChildIds.forEach(cid => {
+                    payloads.push({
+                        name, time_of_day, category, status, type,
+                        parent_id: currentUser.id, child_id: cid
+                    });
+                });
+            } else {
+                payloads.push({
+                    name, time_of_day, category, status, type,
+                    parent_id: currentUser.id, child_id: null
+                });
+            }
 
-            if (error) {
-                alert('Gagal menyimpan aktivitas: ' + error.message);
+            let result;
+            if (id) {
+                const idArray = id.split(',');
+                if (type === 'Personal') {
+                    // Sinkronisasi data: Update yang ada, hapus yang dibuang, tambah yang baru
+                    const { data: currentItems } = await supabaseClient.from('activities').select('id, child_id').in('id', idArray);
+                    
+                    const stayIds = [];
+                    const newCids = [...selectedChildIds];
+
+                    currentItems.forEach(item => {
+                        const idx = newCids.indexOf(item.child_id);
+                        if (idx !== -1) {
+                            stayIds.push(item.id);
+                            newCids.splice(idx, 1); // Anak ini sudah ada datanya
+                        }
+                    });
+
+                    const removeIds = idArray.filter(oid => !stayIds.includes(oid));
+
+                    if (stayIds.length > 0) result = await supabaseClient.from('activities').update({ name, time_of_day, category, status, type }).in('id', stayIds);
+                    if (removeIds.length > 0) await supabaseClient.from('activities').delete().in('id', removeIds);
+                    if (newCids.length > 0) await supabaseClient.from('activities').insert(newCids.map(cid => ({ name, time_of_day, category, status, type, parent_id: currentUser.id, child_id: cid })));
+                    
+                    if (!result) result = { error: null };
+                } else {
+                    // Ubah ke Umum: Update baris pertama, hapus sisanya jika ada
+                    result = await supabaseClient.from('activities').update(payloads[0]).eq('id', idArray[0]);
+                    if (idArray.length > 1) await supabaseClient.from('activities').delete().in('id', idArray.slice(1));
+                }
+            } else {
+                // Mode Tambah: Insert semua payload (bisa 1 atau banyak sekaligus)
+                result = await supabaseClient.from('activities').insert(payloads);
+            }
+
+            if (result.error) {
+                alert('Gagal menyimpan aktivitas: ' + result.error.message);
             } else { 
                 closeActivityModal(); 
                 fetchActivities(); 
             }
         });
 
-        async function deleteActivity(id) {
+        async function deleteActivity(ids) {
             if (confirm('Hapus aktivitas ini?')) {
-                const { error } = await supabaseClient.from('activities').delete().eq('id', id);
+                const idList = ids.split(',');
+                const { error } = await supabaseClient.from('activities').delete().in('id', idList);
                 if (error) alert(error.message); else fetchActivities();
             }
         }
